@@ -2,15 +2,30 @@
 
 <main class="site-main">
 
-    <div class="post-feed gh-feed gh-canvas">
-        {{#get "posts" filter="published_at:>now-30d" limit="all"}}
-            {{#foreach posts}}
-                {{> "loop"}}
-            {{/foreach}}
-        {{/get}}
-    </div>
 
-
-    {{!-- {{pagination}} --}}
+<div class="post-feed gh-feed gh-canvas">
+    {{#get "posts" filter="published_at:>now-30d" limit="all" include="tags"}}
+        {{#foreach posts}}                        
+            <article class="post-card {{post_class}}"> 
+                <header class="post-card-header gh-canvas">
+                    <div class="single-meta">
+                        <span class="single-meta-item single-meta-date">
+                            <time datetime="{{date format='YYYY-MM-DD'}}">
+                                {{date published_at format="MMM DD"}}
+                            </time> {{tags}}
+                        </span>
+                    </div>
+                    <h2 class="post-card-title"><a href="{{url}}">{{title}}</a></h2>
+                </header>
+                <section class="post-card-content">
+                    {{> "content" width="wide"}}
+                </section>
+            </article>
+            {{#unless @last}}
+                <div style="margin-bottom: 40px;"></div>
+            {{/unless}}
+        {{/foreach}}
+    {{/get}}
+</div>
 
 </main>
