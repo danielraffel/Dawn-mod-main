@@ -1,0 +1,16 @@
+{{!< default}}
+
+<main class="site-main">
+
+    <div class="post-feed gh-feed gh-canvas">
+        {{#get "posts" limit="all"}}
+            {{#foreach posts}}
+                {{> "loop"}}
+            {{/foreach}}
+        {{/get}}
+    </div>
+
+
+    {{!-- {{pagination}} --}}
+
+</main>
