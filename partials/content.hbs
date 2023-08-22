@@ -31,26 +31,27 @@
                     {{custom_excerpt}}
                 </div>
             {{/if}}
+            {{^has tag="#nofeature"}} {{!-- #nofeature https://hooshmand.net/ghost-blog-different-hero-image-feature-image/?utm_source=pocket_saves --}}
+                {{#if feature_image}}
+                {{#unless no_image}}
+                    <figure class="single-media kg-width-{{width}}">
+                        <div class="u-placeholder horizontal">
+                            <img
+                                class="u-object-fit"
+                                srcset="{{> srcset}}"
+                                sizes="(min-width: 1200px) 920px, 92vw"
+                                src="{{img_url feature_image size="l"}}"
+                                alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+                            >
+                        </div>
 
-            {{#if feature_image}}
-            {{#unless no_image}}
-                <figure class="single-media kg-width-{{width}}">
-                    <div class="u-placeholder horizontal">
-                        <img
-                            class="u-object-fit"
-                            srcset="{{> srcset}}"
-                            sizes="(min-width: 1200px) 920px, 92vw"
-                            src="{{img_url feature_image size="l"}}"
-                            alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
-                        >
-                    </div>
-
-                    {{#if feature_image_caption}}
-                        <figcaption>{{feature_image_caption}}</figcaption>
-                    {{/if}}
-                </figure>
-            {{/unless}}
-            {{/if}}
+                        {{#if feature_image_caption}}
+                            <figcaption>{{feature_image_caption}}</figcaption>
+                        {{/if}}
+                    </figure>
+                {{/unless}}
+                {{/if}}
+            {{/has}}
         </header>
     {{/match}}
 
