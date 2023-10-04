@@ -127,3 +127,11 @@
         margin-top: 3rem;
     }
 }
+
+div.post-feed .post-card {
+    margin-bottom: 100px;
+}
+
+div.post-feed .post-card:last-child {
+    margin-bottom: 0;
+}

@@ -2,9 +2,7 @@
 
 <main class="site-main">
 
-
 <div class="post-feed gh-feed gh-canvas">
-    {{#get "posts" filter="published_at:>now-30d" limit="all" include="tags"}}
         {{#foreach posts}}                        
             <article class="post-card {{post_class}}">
                 <header class="post-card-header gh-canvas">
@@ -22,17 +20,18 @@
                             {{/primary_tag}}
                         </span>
                     </div>
-                    <h2 class="post-card-title"><a href="{{url}}">{{title}}</a></h2>
+                    <a class="post-card-link" href="{{url}}">
+                    <h2 class="post-card-title">{{title}}</h2>
                 </header>
-                <section class="post-card-content">
-                    {{> "content" width="wide"}}
+                    <section class="post-card-content">
+                        <div class="single-content gh-content gh-canvas">
+                            <p>{{excerpt}}</p>
+                        </div>
+                    </section>
+                    </a>
                 </section>
             </article>
-            {{#unless @last}}
-                <div style="margin-bottom: 100px;"></div>
-            {{/unless}}
         {{/foreach}}
-    {{/get}}
 </div>
 
 </main>
