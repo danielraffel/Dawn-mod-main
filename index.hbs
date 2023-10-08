@@ -21,14 +21,31 @@
                         </span>
                     </div>
                     <a class="post-card-link" href="{{url}}">
-                    <h2 class="post-card-title">{{title}}</h2>
+                        {{#if feature_image}}
+                        <div class="post-card-image">
+                            <img class="post-image"
+                                srcset="{{img_url feature_image size="xs"}} 150w,
+                                        {{img_url feature_image size="s"}} 400w,
+                                        {{img_url feature_image size="m"}} 750w,
+                                        {{img_url feature_image size="l"}} 960w,
+                                        {{img_url feature_image size="xl"}} 1140w,
+                                        {{img_url feature_image size="xxl"}} 1920w"
+                                sizes="(max-width: 960px) 400px, 750px"
+                                src="{{img_url feature_image size="m"}}"
+                                alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+                            />
+                        </div>
+                        {{/if}}
+                        <h2 class="post-card-title">{{title}}</h2>
+                    </a>
                 </header>
+                <a class="post-card-link" href="{{url}}">
                     <section class="post-card-content">
                         <div class="single-content gh-content gh-canvas">
                             <p>{{excerpt}} <br><span style="font-size: .7em; color: #FF1A75;">Read More &raquo;</span></p>
                         </div>
                     </section>
-                    </a>
+                </a>
                 </section>
             </article>
         {{/foreach}}

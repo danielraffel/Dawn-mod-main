@@ -131,3 +131,9 @@
 .gh-content {
     margin-top: 1rem;
 }
+
+.post-card-image img {
+    width: auto;
+    height: 250px;
+    object-fit: cover;
+}
