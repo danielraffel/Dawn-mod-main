@@ -100,5 +100,5 @@ div.post-feed .post-card:last-child {
 .post-card-image img {
     width: 100%;
     height: 390px;
-    object-fit: cover;
+    object-fit: contain;
 }
