@@ -99,6 +99,6 @@ div.post-feed .post-card:last-child {
 
 .post-card-image img {
     width: 100%;
-    height: auto;
+    height: 390px;
     object-fit: cover;
 }
