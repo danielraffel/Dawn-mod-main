@@ -82,7 +82,7 @@
             },
             "featured_title": {
                 "type": "text",
-                "default": "Featured articles",
+                "default": "Featured posts",
                 "group": "homepage"
             },
             "show_author": {

@@ -104,6 +104,19 @@ div.post-feed .post-card:last-child {
     margin-bottom: 1rem;
 }
 
+.post-card-title {
+    margin-top: 0rem;
+}
+
+.photo-via-link {
+    font-size: .7em;
+    color: #FF1A75;
+    display: block;
+    text-align: right;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+}
+
 /* Mobile styles (e.g., screens less than 768px wide) */
 @media only screen and (max-width: 767px) {
     .post-card-image img {
@@ -112,5 +125,13 @@ div.post-feed .post-card:last-child {
         height: auto;  /* Adjust this as needed */
         object-fit: cover;  /* Adjust this as needed */
         margin-bottom: 1rem;  /* Adjust this as needed */
+    }
+    .photo-via-link {
+        font-size: .4em;
+        color: #FF1A75;
+        display: block;
+        text-align: right;
+        margin-top: -1rem;
+        margin-bottom: 1rem;
     }
 }

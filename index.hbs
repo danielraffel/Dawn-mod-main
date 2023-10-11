@@ -34,6 +34,12 @@
                                 src="{{img_url feature_image size="m"}}"
                                 alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
                             />
+                            {{!-- Feature for exposing image attribution using the feature_image_alt field in Ghost Admin
+                            {{#if feature_image_alt}}
+                            <div style="text-align: right;">
+                                <a href="{{feature_image_alt}}" class="photo-via-link" target="_blank">Photo via</a>
+                            </div>
+                            {{/if}} --}}
                         </div>
                         {{/if}}
                         <h2 class="post-card-title">{{title}}</h2>
