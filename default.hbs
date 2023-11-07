@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{@site.title}}{{#is "post"}} | {{meta_title}}{{/is}}</title>
+    <title>{{#is "post"}}{{meta_title}} - {{/is}}{{#is "page"}}{{meta_title}} - {{/is}}{{@site.title}}</title>
     <link rel="stylesheet" href="{{asset "built/screen.css"}}">
     {{ghost_head}}
 </head>
