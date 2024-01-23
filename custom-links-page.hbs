@@ -1,0 +1,84 @@
+{{!< default}}
+
+<main class="site-main">
+
+    {{#post}}
+        {{> "content" width="wide"}}
+    {{/post}}
+
+    <style>
+        .date-group h2.date-title {
+            margin-top: 1em; /* Adjust top margin for the date title */
+            margin-bottom: .5em; /* Adds space between the link items */
+        }
+        .date-group .link-item {
+            margin-bottom: 1em; /* Adds space between the link items */
+        }
+        .date-group .link-item:last-child {
+            border-bottom: none; /* Removes the bottom border for the last item */
+        }
+        .date-group .link-item span.date {
+            display: none; /* Hides the date span */
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Collect all link items within the specific .single-content div
+            var linkItems = document.querySelectorAll('.single-content.gh-content.gh-canvas .link-item');
+
+            // Function to format the date for comparison and display
+            function formatDate(dateStr) {
+                // Create a date object from the string
+                var date = new Date(dateStr);
+                // Options for toLocaleDateString()
+                var options = { year: 'numeric', month: 'long', day: 'numeric' };
+                // Format the date according to the options
+                return date.toLocaleDateString('en-US', options);
+            }
+
+            // Group links by date
+            var linksByDate = {};
+            linkItems.forEach(function(link) {
+                var date = formatDate(link.dataset.creationDate);
+                if (!linksByDate[date]) {
+                    linksByDate[date] = [];
+                }
+                // Clone the link element to modify it without affecting the original
+                var clone = link.cloneNode(true);
+                // Hide the date span within the link element
+                var dateSpan = clone.querySelector('span.date');
+                if (dateSpan) {
+                    dateSpan.style.display = 'none';
+                }
+                linksByDate[date].push(clone.outerHTML);
+            });
+
+            // Sort dates in descending order (most recent first)
+            var dates = Object.keys(linksByDate).sort(function(a, b) {
+                return new Date(b) - new Date(a);
+            });
+
+            // Build the HTML structure for grouped links
+            var groupedHTML = '';
+            dates.forEach(function(date) {
+                groupedHTML += '<div class="date-group">';
+                groupedHTML += '<h2 class="date-title">' + date + '</h2>';
+                linksByDate[date].forEach(function(linkHTML) {
+                    groupedHTML += linkHTML;
+                });
+                groupedHTML += '</div>';
+            });
+
+            // Create a container for the grouped links
+            var container = document.createElement('div');
+            container.innerHTML = groupedHTML;
+
+            // Append the new structure and hide the original link items
+            var linksContainer = document.querySelector('.single-content.gh-content.gh-canvas');
+            linksContainer.innerHTML = ''; // Clear the existing link items
+            linksContainer.appendChild(container); // Append the new grouped links
+        });
+    </script>
+
+</main>
