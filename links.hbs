@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Clear the posts and append them grouped by date
   var feed = document.querySelector('.post-feed');
-  feed.innerHTML = ''; // Clear the feed
+  feed.innerHTML = '';
 
   dates.forEach(function(date) {
     // Create the date header using the same structure as the post headers
@@ -84,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
     singleMetaItem.className = 'single-meta-item single-meta-date';
     var time = document.createElement('time');
     time.textContent = date;
-    // Append the elements to create the structure
     singleMetaItem.appendChild(time);
     singleMeta.appendChild(singleMetaItem);
     dateHeader.appendChild(singleMeta);
@@ -92,6 +91,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Append posts for this date
     postsByDate[date].forEach(function(post) {
+      var linkItem = post.querySelector('.link-item');
+      var originalUrl = linkItem.dataset.originalUrl;
+      var titleElement = post.querySelector('.post-card-title');
+      var contentLinks = post.querySelectorAll('.post-card-content a, .post-card-link');
+
+      // Update the title's inner HTML to be a hyperlink with the original URL
+      if (titleElement) {
+        titleElement.innerHTML = '<a href="' + originalUrl + '" target="_blank">' + linkItem.dataset.title + '</a>';
+      }
+
+      // Update all content links to use the original URL
+      contentLinks.forEach(function(contentLink) {
+        contentLink.setAttribute('href', originalUrl);
+      });
+
       feed.appendChild(post);
     });
   });
@@ -105,11 +119,10 @@ document.addEventListener('DOMContentLoaded', function() {
       margin-top: -20px;
     }
   `;
-  // Append the style to the head of the document
   document.head.appendChild(style);
-
 });
 </script>
+
 
 
 </main>
