@@ -58,4 +58,31 @@
         {{/foreach}}
 </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Select all 'link-item' divs
+    var linkItems = document.querySelectorAll('.link-item');
+
+    linkItems.forEach(function(item) {
+      // Get the 'data-original-url' attribute value
+      var originalUrl = item.getAttribute('data-original-url');
+
+      // Find the 'post-card-link' within the parent of the 'link-item'
+      var cardLinks = item.closest('.post-card').querySelectorAll('.post-card-link');
+
+      // Update all card links to use the original URL
+      cardLinks.forEach(function(link) {
+        link.setAttribute('href', originalUrl);
+      });
+
+      // Also update the title's inner HTML to be a hyperlink
+      var titleElement = item.closest('.post-card').querySelector('.post-card-title');
+      if (titleElement) {
+        var title = item.getAttribute('data-title');
+        titleElement.innerHTML = '<a href="' + originalUrl + '" target="_blank">' + title + '</a>';
+      }
+    });
+  });
+</script>
+
 </main>
