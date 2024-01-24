@@ -2,6 +2,11 @@
 
 <main class="site-main">
 
+<div class="page-title" style="text-align:center; margin-bottom:2rem;">
+        <h1 style="margin:0;">Links</h1>
+        <p>A regularly updated list of links I find interesting with brief commentary.</p>
+</div>
+
 <div class="post-feed gh-feed gh-canvas">
         {{#foreach posts}}                        
             <article class="post-card {{post_class}}">
@@ -9,7 +14,7 @@
                     <div class="single-meta">
                         <span class="single-meta-item single-meta-date">
                             <time datetime="{{date format='YYYY-MM-DD'}}">
-                                {{date published_at format="MMM DD"}}
+                                {{date published_at format="MMM DD"}} 
                             </time>
                             {{#primary_tag}}
                                 <span class="single-meta-item single-meta-tag">
