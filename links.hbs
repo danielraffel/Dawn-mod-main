@@ -192,11 +192,17 @@
         // Select all the post-date elements
         var postDates = document.querySelectorAll('.post-date');
 
+        // Select all the post-content elements
+        var postContents = document.querySelectorAll('.post-content');
+
         // This will store the unique dates that have already been processed
         var processedDates = {};
 
+        // Variable to track the first visible date
+        var firstDateShown = false;
+
         // Iterate over each post-date element
-        postDates.forEach(function(postDate) {
+        postDates.forEach(function(postDate, index) {
             var date = postDate.getAttribute('data-creation-date');
 
             // Check if this date has been processed before
@@ -206,7 +212,20 @@
             } else {
                 // If no, remember this date as processed
                 processedDates[date] = true;
+
+                // For all but the first date, add extra padding
+                if (firstDateShown) {
+                    postDate.style.paddingTop = '50px';
+                } else {
+                    // Mark the first date as shown
+                    firstDateShown = true;
+                }
             }
         });
+
+        // Set the margin-bottom of the last post-content element to 0rem
+        if (postContents.length > 0) {
+            postContents[postContents.length - 1].style.marginBottom = '0rem';
+        }
     });
 </script>
