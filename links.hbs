@@ -151,9 +151,9 @@
   margin-bottom: 1.5rem;
 }
 
-.post-content > a:not(:has(> a)) {
-  color: inherit; /* Inherits the color from the parent, which should be your default text color */
-  text-decoration: none;
+.post-content > a {
+  color: inherit; /* This makes the link color the same as the text color */
+  text-decoration: none; /* Keeps links from being underlined */
 }
 
 /* This will ensure that links within blockquotes inside .post-content are pink */
