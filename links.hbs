@@ -151,22 +151,15 @@
   margin-bottom: 1.5rem;
 }
 
-.post-content > a {
-  color: inherit; /* This makes the link color the same as the text color */
-  text-decoration: none; /* Keeps links from being underlined */
+.post-content > a:not(:has(> a)) {
+  color: inherit; /* Inherits the color from the parent, which should be your default text color */
+  text-decoration: none;
 }
 
 /* This will ensure that links within blockquotes inside .post-content are pink */
 .post-content blockquote a {
   color: #FF1A75; /* This will apply the pink color to links within blockquotes */
   text-decoration: underline; /* If you want these links underlined, if not, remove this line */
-}
-
-/* Add any additional specific styling for links here if needed */
-.post-content a:hover, 
-.post-content a:focus {
-  opacity: 0.8; /* Example hover effect */
-  text-decoration: underline; /* Assuming you want to underline on hover */
 }
 
 </style>
