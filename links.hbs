@@ -135,11 +135,7 @@
   font-size: 1.8rem;
   line-height: 1.6;
   margin-bottom: 4rem;
-}
-
-.post-content a {
   text-decoration: none;
-  color:#FF1A75;
 }
 
 .post-content blockquote {
@@ -155,6 +151,23 @@
   margin-bottom: 1.5rem;
 }
 
+.post-content > a {
+  color: inherit; /* This makes the link color the same as the text color */
+  text-decoration: none; /* Keeps links from being underlined */
+}
+
+/* This will ensure that links within blockquotes inside .post-content are pink */
+.post-content blockquote a {
+  color: #FF1A75; /* This will apply the pink color to links within blockquotes */
+  text-decoration: underline; /* If you want these links underlined, if not, remove this line */
+}
+
+/* Add any additional specific styling for links here if needed */
+.post-content a:hover, 
+.post-content a:focus {
+  opacity: 0.8; /* Example hover effect */
+  text-decoration: underline; /* Assuming you want to underline on hover */
+}
 
 </style>
     <script defer src="https://cdn.jsdelivr.net/ghost/sodo-search@~1.1/umd/sodo-search.min.js" data-key="f59b73ee18c4dd395b137d1638" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.1/umd/main.css" data-sodo-search="http://danielraffel.me/" crossorigin="anonymous"></script>
