@@ -1,0 +1,14 @@
+<article class="{{post_class}}">
+  <!-- Grouped date with metadata as a data attribute -->
+  <div class="post-date" data-creation-date="{{date published_at format="YYYY-MM-DD"}}">
+    <span>{{date published_at format="MMM DD"}}</span>
+  </div>
+
+  <h2 class="post-title">
+    <a href="{{canonical_url}}">{{title}}</a>
+  </h2>
+
+  <div class="post-content">
+    <a href="{{canonical_url}}">{{content}}</a>
+  </div>
+</article>
