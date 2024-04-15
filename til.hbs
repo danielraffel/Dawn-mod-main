@@ -214,7 +214,7 @@
         <h1 style="margin-bottom:4rem;">Today I Learned</h1>
     </div>
 
-    <div class="post-feed gh-feed gh-canvas">
+    {{!-- <div class="post-feed gh-feed gh-canvas">
         {{#get "posts" limit="all" filter="tags:today-i-learned" include="tags,authors" order="published_at desc"}}
             {{#foreach posts}}
                 <article class="{{post_class}}">
@@ -233,7 +233,64 @@
                 </article>
             {{/foreach}}
         {{/get}}
-    </div>
+    </div> --}}
+
+<div class="post-feed gh-feed gh-canvas">
+        {{#foreach posts}}                        
+            <article class="post-card {{post_class}}">
+                <header class="post-card-header gh-canvas">
+                    <div class="single-meta">
+                        <span class="single-meta-item single-meta-date">
+                            <time datetime="{{date format='YYYY-MM-DD'}}">
+                                {{date published_at format="MMM DD"}}
+                            </time>
+                            {{#primary_tag}}
+                                {{!-- <span class="single-meta-item single-meta-tag">
+                                    <a class="post-tag post-tag-{{slug}}" href="{{url}}">
+                                        {{name}}
+                                    </a>
+                                </span> --}}
+                            {{/primary_tag}}
+                        </span>
+                    </div>
+                    <a class="post-card-link" href="{{url}}">
+                        {{#if feature_image}}
+                        <div class="post-card-image">
+                            <img class="post-image"
+                                srcset="{{img_url feature_image size="xs"}} 150w,
+                                        {{img_url feature_image size="s"}} 400w,
+                                        {{img_url feature_image size="m"}} 750w,
+                                        {{img_url feature_image size="l"}} 960w,
+                                        {{img_url feature_image size="xl"}} 1140w,
+                                        {{img_url feature_image size="xxl"}} 1920w"
+                                sizes="(max-width: 960px) 400px, 750px"
+                                src="{{img_url feature_image size="m"}}"
+                                alt="{{#if feature_image_alt}}{{feature_image_alt}}{{else}}{{title}}{{/if}}"
+                            />
+                            {{!-- Feature for exposing image attribution using the feature_image_alt field in Ghost Admin
+                            {{#if feature_image_alt}}
+                            <div style="text-align: right;">
+                                <a href="{{feature_image_alt}}" class="photo-via-link" target="_blank">Photo via</a>
+                            </div>
+                            {{/if}} --}}
+                        </div>
+                        {{/if}}
+                        <h2 class="post-card-title">{{title}}</h2>
+                    </a>
+                </header>
+                <a class="post-card-link" href="{{url}}">
+                    <section class="post-card-content">
+                        <div class="single-content gh-content gh-canvas">
+                            <p>{{excerpt}} <br><span style="font-size: .7em; color: #FF1A75;">Read More &raquo;</span></p>
+                        </div>
+                    </section>
+                </a>
+            </article>
+        {{/foreach}}
+</div>
+
+
+
 
     {{pagination}}
 </main>
