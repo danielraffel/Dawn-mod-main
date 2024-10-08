@@ -198,15 +198,15 @@
     <h1 style="margin-bottom:4rem;">Recent Activities</h1>
 </div>
 
-<div class="post-feed gh-feed gh-canvas" id="post-feed">
-    {{#get "posts" limit="10" filter="tags:strava" include="tags,authors" order="published_at desc"}}
-        {{#foreach posts}}
-            {{> "linkloop"}}
-        {{/foreach}}
-    {{/get}}
-</div>
+    <div class="post-feed gh-feed gh-canvas">
+        {{#get "posts" limit="all" filter="tags:strava" include="tags,authors" order="published_at desc"}}
+            {{#foreach posts}}
+                {{> "linkloop"}}
+            {{/foreach}}
+        {{/get}}
+    </div>
 
-{{pagination}}
+    {{pagination}}
 
 </main>
 
@@ -250,19 +250,5 @@
         if (postContents.length > 0) {
             postContents[postContents.length - 1].style.marginBottom = '0rem';
         }
-
-        // Infinite Scroll Initialization
-        const infScroll = new InfiniteScroll('#post-feed', {
-            path: '/activities/page/{{#if next}}{{next}}{{else}}1{{/if}}', // Adjust the path as needed
-            append: '.linkloop', // Adjust this selector to match your post template
-            history: false,
-            status: '.page-load-status',
-            checkLastPage: true,
-        });
-
-        // Optional: Add a loading indicator
-        infScroll.on('load', function(response) {
-            // You can add any additional logic here after loading new posts
-        });
     });
 </script>
