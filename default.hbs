@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html{{#match @custom.color_scheme "Dark"}} class="theme-dark"{{/match}}{{#match @custom.color_scheme "Light"}} class="theme-light"{{/match}} lang="{{@site.locale}}">
 
-{{^is "links, activities"}}
+<!-- {{^is "links, activities"}}
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,16 @@
         {{ghost_head}}
 </head>
 {{/is}}
+ -->
 
+{{#is "links"}}
+    {{> "head-links"}}
+{{else is "activities"}}
+    {{> "head-activities"}}
+{{else}}
+    {{> "head-default"}}
+{{/is}}
+    
 <body class='{{body_class}}{{{block "body_class"}}} is-head-{{#match @custom.navigation_layout "Logo on the left"}}left-logo{{else match @custom.navigation_layout "Logo in the middle"}}middle-logo{{else}}stacked{{/match}}{{#match @custom.title_font "=" "Elegant serif"}} has-serif-title{{/match}}{{#match @custom.body_font "=" "Elegant serif"}} has-serif-body{{/match}}'>
 <div class="site">
 
