@@ -287,6 +287,9 @@
                 if (allPostContents.length > 0) {
                     allPostContents[allPostContents.length - 1].style.marginBottom = '0rem';
                 }
+                
+                // Remove any load more buttons that might have been created
+                removeLoadMoreButtons();
             });
             
             // When last page is reached
@@ -294,39 +297,78 @@
                 // Hide the status container completely
                 document.querySelector('.infinite-scroll-status').style.display = 'none';
                 
-                // Remove any load more button that might have been created
-                var loadMoreButton = document.querySelector('.infinite-scroll-request');
-                if (loadMoreButton) {
-                    loadMoreButton.style.display = 'none';
-                }
-                
-                // Also remove any button that might have been created
-                var buttons = document.querySelectorAll('.load-more-button');
-                buttons.forEach(function(button) {
-                    button.style.display = 'none';
-                });
+                // Remove any load more buttons
+                removeLoadMoreButtons();
             });
             
-            // Completely disable any button functionality
-            infScroll.options.loadOnScroll = true;
-            infScroll.options.button = null;
+            // Function to remove all load more buttons
+            function removeLoadMoreButtons() {
+                // Target all possible button selectors
+                var buttonSelectors = [
+                    '.infinite-scroll-request',
+                    '.load-more-button',
+                    'button.load-more',
+                    'button:contains("LOAD MORE")',
+                    'a:contains("LOAD MORE")',
+                    '.button:contains("LOAD MORE")',
+                    '[role="button"]:contains("LOAD MORE")'
+                ];
+                
+                // Find and remove all buttons
+                buttonSelectors.forEach(function(selector) {
+                    var elements = document.querySelectorAll(selector);
+                    elements.forEach(function(element) {
+                        element.style.display = 'none';
+                        element.remove(); // Completely remove from DOM
+                    });
+                });
+                
+                // Also look for any element with "LOAD MORE" text
+                var allElements = document.querySelectorAll('*');
+                allElements.forEach(function(element) {
+                    if (element.textContent && element.textContent.includes('LOAD MORE')) {
+                        element.style.display = 'none';
+                        element.remove(); // Completely remove from DOM
+                    }
+                });
+            }
             
             // Override the loadNextPage method to always use scroll, never button
             var originalLoadNextPage = infScroll.loadNextPage;
             infScroll.loadNextPage = function() {
-                if (this.options.loadOnScroll) {
-                    originalLoadNextPage.call(this);
-                }
+                originalLoadNextPage.call(this);
+                // Remove any buttons that might have been created
+                removeLoadMoreButtons();
             };
             
-            // Hide any existing buttons
+            // Override the _insertLoadMoreButton method to prevent button creation
+            infScroll._insertLoadMoreButton = function() {
+                // Do nothing - prevent button creation
+                return null;
+            };
+            
+            // Override the _setLoadMoreButton method to prevent button functionality
+            infScroll._setLoadMoreButton = function() {
+                // Do nothing - prevent button functionality
+                return null;
+            };
+            
+            // Check for buttons periodically
+            setInterval(removeLoadMoreButtons, 1000);
+            
+            // Initial button removal
+            removeLoadMoreButtons();
+            
+            // Global click interceptor for any load more buttons
             document.addEventListener('click', function(event) {
-                if (event.target.matches('.load-more-button') || 
-                    event.target.closest('.load-more-button') ||
-                    event.target.textContent.includes('LOAD MORE')) {
+                if (event.target.textContent && event.target.textContent.includes('LOAD MORE')) {
                     event.preventDefault();
                     event.stopPropagation();
                     event.target.style.display = 'none';
+                    event.target.remove();
+                    
+                    // Try to load next page anyway
+                    infScroll.loadNextPage();
                 }
             }, true);
         }
