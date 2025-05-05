@@ -204,8 +204,8 @@
 
     <div class="infinite-scroll-status">
         <div class="infinite-scroll-request"></div>
-        <p class="infinite-scroll-last">End of content</p>
-        <p class="infinite-scroll-error">No more pages to load</p>
+        <p class="infinite-scroll-last" style="display: none;">End of content</p>
+        <p class="infinite-scroll-error" style="display: none;">No more pages to load</p>
     </div>
 
 </main>
@@ -223,49 +223,70 @@
 
         // This will store the unique dates that have already been processed
         var processedDates = {};
+        
+        // This will store the unique post IDs to prevent duplicates
+        var processedPosts = {};
 
         // Variable to track the first visible date
         var firstDateShown = false;
 
-        // Iterate over each post-date element
-        postDates.forEach(function(postDate, index) {
-            var date = postDate.getAttribute('data-creation-date');
+        // Function to process post dates
+        function processPostDates() {
+            // Get all post-date elements (including newly loaded ones)
+            var allPostDates = document.querySelectorAll('.post-date');
+            
+            // Iterate over each post-date element
+            allPostDates.forEach(function(postDate) {
+                var date = postDate.getAttribute('data-creation-date');
 
-            // Check if this date has been processed before
-            if (processedDates[date]) {
-                // If yes, hide the date element
-                postDate.style.display = 'none';
-            } else {
-                // If no, remember this date as processed
-                processedDates[date] = true;
-
-                // For all but the first date, add extra padding
-                if (firstDateShown) {
-                    postDate.style.paddingTop = '50px';
+                // Check if this date has been processed before
+                if (processedDates[date]) {
+                    // If yes, hide the date element
+                    postDate.style.display = 'none';
                 } else {
-                    // Mark the first date as shown
-                    firstDateShown = true;
+                    // If no, remember this date as processed
+                    processedDates[date] = true;
+
+                    // For all but the first date, add extra padding
+                    if (firstDateShown) {
+                        postDate.style.paddingTop = '50px';
+                    } else {
+                        // Mark the first date as shown
+                        firstDateShown = true;
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        // Process dates for initial content
+        processPostDates();
 
         // Set the margin-bottom of the last post-content element to 0rem
         if (postContents.length > 0) {
             postContents[postContents.length - 1].style.marginBottom = '0rem';
         }
 
+        // Hide status messages by default
+        document.querySelector('.infinite-scroll-last').style.display = 'none';
+        document.querySelector('.infinite-scroll-error').style.display = 'none';
+
         // Listen for new posts being loaded
         document.addEventListener('append.infiniteScroll', function(event) {
             // Process dates in newly loaded content
-            var newPostDates = event.target.querySelectorAll('.post-date');
-            newPostDates.forEach(function(postDate) {
-                var dateText = postDate.getAttribute('data-creation-date');
-                if (processedDates[dateText]) {
-                    postDate.style.display = 'none';
-                } else {
-                    processedDates[dateText] = true;
-                }
-            });
+            processPostDates();
+            
+            // Update the margin of the last post-content
+            var allPostContents = document.querySelectorAll('.post-content');
+            if (allPostContents.length > 0) {
+                allPostContents[allPostContents.length - 1].style.marginBottom = '0rem';
+            }
+        });
+        
+        // Listen for the last page event
+        document.addEventListener('last.infiniteScroll', function(event) {
+            // Hide the status messages when we reach the end
+            document.querySelector('.infinite-scroll-last').style.display = 'none';
+            document.querySelector('.infinite-scroll-error').style.display = 'none';
         });
     });
 </script>
