@@ -293,7 +293,42 @@
             infScroll.on('last', function() {
                 // Hide the status container completely
                 document.querySelector('.infinite-scroll-status').style.display = 'none';
+                
+                // Remove any load more button that might have been created
+                var loadMoreButton = document.querySelector('.infinite-scroll-request');
+                if (loadMoreButton) {
+                    loadMoreButton.style.display = 'none';
+                }
+                
+                // Also remove any button that might have been created
+                var buttons = document.querySelectorAll('.load-more-button');
+                buttons.forEach(function(button) {
+                    button.style.display = 'none';
+                });
             });
+            
+            // Completely disable any button functionality
+            infScroll.options.loadOnScroll = true;
+            infScroll.options.button = null;
+            
+            // Override the loadNextPage method to always use scroll, never button
+            var originalLoadNextPage = infScroll.loadNextPage;
+            infScroll.loadNextPage = function() {
+                if (this.options.loadOnScroll) {
+                    originalLoadNextPage.call(this);
+                }
+            };
+            
+            // Hide any existing buttons
+            document.addEventListener('click', function(event) {
+                if (event.target.matches('.load-more-button') || 
+                    event.target.closest('.load-more-button') ||
+                    event.target.textContent.includes('LOAD MORE')) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.target.style.display = 'none';
+                }
+            }, true);
         }
     });
 </script>
