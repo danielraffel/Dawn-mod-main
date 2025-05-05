@@ -142,8 +142,6 @@
     text-decoration: underline; /* If you want these links underlined, if not, remove this line */
     }
 
-    </style>
-
     /* Infinite Scroll Styles */
     .infinite-scroll-request {
         animation: loading 1.1s infinite linear;
@@ -194,7 +192,9 @@
     <div class="post-feed gh-feed gh-canvas">
         {{#get "posts" filter="tags:links" include="tags,authors" limit="10" page=1 order="published_at desc"}}
             {{#foreach posts}}
-                {{> "linkloop"}}
+                <article class="post-card {{post_class}}">
+                    {{> "linkloop"}}
+                </article>
             {{/foreach}}
         {{/get}}
     </div>
@@ -253,5 +253,19 @@
         if (postContents.length > 0) {
             postContents[postContents.length - 1].style.marginBottom = '0rem';
         }
+
+        // Listen for new posts being loaded
+        document.addEventListener('append.infiniteScroll', function(event) {
+            // Process dates in newly loaded content
+            var newPostDates = event.target.querySelectorAll('.post-date');
+            newPostDates.forEach(function(postDate) {
+                var dateText = postDate.getAttribute('data-creation-date');
+                if (processedDates[dateText]) {
+                    postDate.style.display = 'none';
+                } else {
+                    processedDates[dateText] = true;
+                }
+            });
+        });
     });
 </script>
