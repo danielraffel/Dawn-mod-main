@@ -192,7 +192,7 @@
     <div class="post-feed gh-feed gh-canvas">
         {{#get "posts" filter="tags:links" include="tags,authors" limit="10" page=1 order="published_at desc"}}
             {{#foreach posts}}
-                <article class="post-card {{post_class}}">
+                <article class="post-card {{post_class}}" data-post-id="{{id}}">
                     {{> "linkloop"}}
                 </article>
             {{/foreach}}
@@ -202,16 +202,140 @@
     {{!-- Pagination for infinite scroll to work properly --}}
     {{pagination}}
 
-    <div class="infinite-scroll-status">
+    <div class="infinite-scroll-status" style="display: none;">
         <div class="infinite-scroll-request"></div>
-        <p class="infinite-scroll-last" style="display: none;">End of content</p>
-        <p class="infinite-scroll-error" style="display: none;">No more pages to load</p>
+        <p class="infinite-scroll-last">End of content</p>
+        <p class="infinite-scroll-error">No more pages to load</p>
     </div>
 
 </main>
 
 <!-- Add Infinite Scroll library before your custom script -->
 <script src="https://unpkg.com/infinite-scroll@4.0.1/dist/infinite-scroll.pkgd.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Select all the post-date elements
+        var postDates = document.querySelectorAll('.post-date');
+
+        // Select all the post-content elements
+        var postContents = document.querySelectorAll('.post-content');
+
+        // This will store the unique dates that have already been processed
+        var processedDates = {};
+        
+        // This will store the unique post IDs to prevent duplicates
+        var processedPosts = {};
+
+        // Variable to track the first visible date
+        var firstDateShown = false;
+
+        // Function to process post dates
+        function processPostDates() {
+            // Get all post-date elements (including newly loaded ones)
+            var allPostDates = document.querySelectorAll('.post-date');
+            
+            // Iterate over each post-date element
+            allPostDates.forEach(function(postDate) {
+                var date = postDate.getAttribute('data-creation-date');
+
+                // Check if this date has been processed before
+                if (processedDates[date]) {
+                    // If yes, hide the date element
+                    postDate.style.display = 'none';
+                } else {
+                    // If no, remember this date as processed
+                    processedDates[date] = true;
+
+                    // For all but the first date, add extra padding
+                    if (firstDateShown) {
+                        postDate.style.paddingTop = '50px';
+                    } else {
+                        // Mark the first date as shown
+                        firstDateShown = true;
+                    }
+                }
+            });
+        }
+
+        // Process dates for initial content
+        processPostDates();
+
+        // Set the margin-bottom of the last post-content element to 0rem
+        if (postContents.length > 0) {
+            postContents[postContents.length - 1].style.marginBottom = '0rem';
+        }
+
+        // Initialize infinite scroll
+        var elem = document.querySelector('.post-feed');
+        var infScroll = new InfiniteScroll(elem, {
+            path: '.pagination a.older-posts',
+            append: 'article.post-card',
+            history: false,
+            hideNav: '.pagination',
+            status: '.infinite-scroll-status',
+            checkLastPage: true,
+            scrollThreshold: 300,
+            debug: false
+        });
+
+        // Track loaded posts to prevent duplicates
+        var loadedPosts = {};
+        
+        // Store initial posts
+        document.querySelectorAll('article.post-card').forEach(function(post) {
+            var postId = post.getAttribute('data-post-id');
+            if (postId) {
+                loadedPosts[postId] = true;
+            }
+        });
+
+        // Before appending new posts, filter out duplicates
+        infScroll.on('load', function(response, path, items) {
+            // Filter out duplicate posts
+            var uniqueItems = [];
+            items.forEach(function(item) {
+                var postId = item.getAttribute('data-post-id');
+                if (postId && !loadedPosts[postId]) {
+                    loadedPosts[postId] = true;
+                    uniqueItems.push(item);
+                }
+            });
+            
+            // Replace items with filtered unique items
+            items.length = 0;
+            uniqueItems.forEach(function(item) {
+                items.push(item);
+            });
+            
+            return items;
+        });
+
+        // After new posts are loaded
+        infScroll.on('append', function(response, path, items) {
+            // Process dates in newly loaded content
+            processPostDates();
+            
+            // Update the margin of the last post-content
+            var allPostContents = document.querySelectorAll('.post-content');
+            if (allPostContents.length > 0) {
+                allPostContents[allPostContents.length - 1].style.marginBottom = '0rem';
+            }
+        });
+        
+        // When last page is reached
+        infScroll.on('last', function(response, path) {
+            // Hide the entire status container
+            document.querySelector('.infinite-scroll-status').style.display = 'none';
+        });
+        
+        // If there's an error
+        infScroll.on('error', function(error, path) {
+            console.log('Infinite Scroll error', error, path);
+            // Hide the status container
+            document.querySelector('.infinite-scroll-status').style.display = 'none';
+        });
+    });
+</script>
 <script src="{{asset "js/infinite-scroll.js"}}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
