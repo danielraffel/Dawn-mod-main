@@ -15,7 +15,7 @@
     <meta property="article:publisher" content="https://www.facebook.com/ghost">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="🚴‍♂️ Activities - Daniel&#x27;s Journal">
-    <meta name="twitter:url" content="http://danielraffel.me/activities/">
+    <meta property="og:url" content="http://danielraffel.me/activities/">
     <meta name="twitter:site" content="@danielraffel">
     
     <script type="application/ld+json">
@@ -199,7 +199,7 @@
 </div>
 
     <div class="post-feed gh-feed gh-canvas">
-        {{#get "posts" filter="tags:strava" include="tags,authors" limit="12" page=1 order="published_at desc"}}
+        {{#get "posts" filter="tags:strava" include="tags,authors" limit="10" order="published_at desc"}}
             {{#foreach posts}}
                 {{> "linkloop"}}
             {{/foreach}}
@@ -210,6 +210,7 @@
 
 </main>
 
+<script src="{{asset "js/infinite-scroll.js"}}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Select all the post-date elements
