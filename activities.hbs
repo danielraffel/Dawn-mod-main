@@ -297,5 +297,44 @@
                 }
             }
         });
+        
+        // Listen for new posts being loaded
+        document.addEventListener('append.infiniteScroll', function(event) {
+            // Process dates in newly loaded content
+            var newPostDates = event.target.querySelectorAll('.post-date');
+            newPostDates.forEach(function(postDate) {
+                var dateText = postDate.textContent.trim();
+                if (processedDates[dateText]) {
+                    postDate.style.display = 'none';
+                } else {
+                    processedDates[dateText] = true;
+                }
+            });
+            
+            // Reinitialize any embedded content in the new posts
+            if (window.instgrm) {
+                window.instgrm.Embeds.process();
+            }
+            
+            // For Twitter embeds
+            if (window.twttr && window.twttr.widgets) {
+                window.twttr.widgets.load();
+            }
+            
+            // For Strava embeds - force iframe refresh
+            var stravaEmbeds = event.target.querySelectorAll('.strava-embed');
+            stravaEmbeds.forEach(function(embed) {
+                // Get the iframe if it exists
+                var iframe = embed.querySelector('iframe');
+                if (iframe) {
+                    // Refresh the iframe by reloading its src
+                    var src = iframe.src;
+                    iframe.src = '';
+                    setTimeout(function() {
+                        iframe.src = src;
+                    }, 10);
+                }
+            });
+        });
     });
 </script>
