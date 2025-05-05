@@ -208,6 +208,11 @@
         {{/get}}
     </div>
 
+    {{!-- Add pagination for infinite scroll to work --}}
+    <div class="pagination">
+        <a class="older-posts" href="{{page_url next}}">Load more</a>
+    </div>
+
     <div class="infinite-scroll-status">
         <div class="infinite-scroll-request"></div>
         <p class="infinite-scroll-last">End of content</p>
@@ -264,3 +269,44 @@
         });
     });
 </script>
+
+
+    /* Infinite Scroll Styles */
+    .infinite-scroll-request {
+      animation: loading 1.1s infinite linear;
+      border: 2px solid #FF1A75;
+      border-left-color: transparent;
+      border-radius: 50%;
+      display: block;
+      height: 36px;
+      margin: 30px auto;
+      width: 36px;
+    }
+
+    @keyframes loading {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .infinite-scroll-last,
+    .infinite-scroll-error {
+      color: var(--secondary-text-color);
+      font-size: 1.6rem;
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    /* Hide pagination by default (it will be shown if JS fails) */
+    .pagination {
+      display: none;
+    }
+
+    /* Show pagination if JS is disabled */
+    .no-js .pagination {
+      display: block;
+    }
+    </style>
