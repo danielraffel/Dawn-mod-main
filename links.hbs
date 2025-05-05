@@ -261,5 +261,39 @@
         // Hide status messages by default
         document.querySelector('.infinite-scroll-last').style.display = 'none';
         document.querySelector('.infinite-scroll-error').style.display = 'none';
+        
+        // Override the default infinite scroll behavior
+        if (typeof InfiniteScroll !== 'undefined') {
+            // Find the existing instance or create a new one
+            var infScroll = new InfiniteScroll('.post-feed', {
+                path: '.pagination a.older-posts',
+                append: '.post-card',
+                history: false,
+                scrollThreshold: 300,
+                hideNav: '.pagination',
+                status: '.infinite-scroll-status',
+                button: null,  // Disable the load more button
+                loadOnScroll: true,  // Always load on scroll
+                debug: false
+            });
+            
+            // When new content is appended
+            infScroll.on('append', function(response, path, items) {
+                // Process dates in newly loaded content
+                processPostDates();
+                
+                // Update the margin of the last post-content
+                var allPostContents = document.querySelectorAll('.post-content');
+                if (allPostContents.length > 0) {
+                    allPostContents[allPostContents.length - 1].style.marginBottom = '0rem';
+                }
+            });
+            
+            // When last page is reached
+            infScroll.on('last', function() {
+                // Hide the status container completely
+                document.querySelector('.infinite-scroll-status').style.display = 'none';
+            });
+        }
     });
 </script>
