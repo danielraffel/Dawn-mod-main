@@ -247,10 +247,8 @@
         {{/get}}
     </div>
 
-    {{!-- Add pagination for infinite scroll to work --}}
-    <div class="pagination">
-        <a class="older-posts" href="{{page_url next}}">Load more</a>
-    </div>
+    {{!-- Use only one pagination method --}}
+    {{pagination}}
 
     <div class="infinite-scroll-status">
         <div class="infinite-scroll-request"></div>
@@ -301,10 +299,21 @@
         var elem = document.querySelector('.post-feed');
         var infScroll = new InfiniteScroll(elem, {
             path: '.pagination a.older-posts',
-            append: '.post-card',
+            append: '.post', // Try this selector instead of .post-card
             status: '.infinite-scroll-status',
             hideNav: '.pagination',
             history: false,
+            debug: true // Add debug mode to see what's happening
+        });
+
+        // Log any errors
+        infScroll.on('error', function(error) {
+            console.error('Infinite Scroll error:', error);
+        });
+
+        // Log when request starts
+        infScroll.on('request', function(path) {
+            console.log('Infinite Scroll request:', path);
         });
     });
 </script>
