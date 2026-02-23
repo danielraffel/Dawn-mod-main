@@ -102,6 +102,12 @@
         "test": "gscan .",
         "zip": "gulp zip"
     },
+    "overrides": {
+        "minimatch": "10.2.2"
+    },
+    "resolutions": {
+        "**/minimatch": "10.2.2"
+    },
     "devDependencies": {
         "@tryghost/shared-theme-assets": "2.4.0",
         "autoprefixer": "10.4.14",
