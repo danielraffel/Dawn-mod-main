@@ -44,7 +44,11 @@
         "custom": {
             "navigation_layout": {
                 "type": "select",
-                "options": ["Logo on the left", "Logo in the middle", "Stacked"],
+                "options": [
+                    "Logo on the left",
+                    "Logo in the middle",
+                    "Stacked"
+                ],
                 "default": "Logo on the left"
             },
             "title_font": {
@@ -99,31 +103,25 @@
     },
     "scripts": {
         "dev": "gulp",
-        "test": "gscan .",
+        "test": "pnpm dlx gscan@6.6.1 .",
         "zip": "gulp zip"
     },
-    "overrides": {
-        "minimatch": "10.2.2",
-        "brace-expansion": "5.0.9"
-    },
-    "resolutions": {
-        "**/minimatch": "10.2.2",
-        "**/brace-expansion": "5.0.9"
-    },
     "devDependencies": {
-        "@tryghost/shared-theme-assets": "2.4.0",
-        "autoprefixer": "10.4.14",
+        "@tryghost/shared-theme-assets": "2.7.4",
+        "@tryghost/theme-translations": "^0.0.9",
+        "autoprefixer": "10.6.0",
         "beeper": "2.1.0",
-        "cssnano": "6.0.1",
-        "gscan": "4.37.5",
-        "gulp": "4.0.2",
+        "cssnano": "9.0.4",
+        "gulp": "5.0.1",
         "gulp-concat": "2.6.1",
         "gulp-livereload": "4.0.2",
-        "gulp-postcss": "9.0.1",
+        "gulp-postcss": "10.0.0",
         "gulp-uglify": "3.0.2",
         "gulp-zip": "5.1.0",
-        "postcss": "8.4.27",
+        "ordered-read-streams": "2.0.0",
+        "postcss": "8.5.28",
         "postcss-easy-import": "4.0.0",
-        "pump": "3.0.0"
-    }
+        "pump": "3.0.4"
+    },
+    "packageManager": "pnpm@12.4.1"
 }
