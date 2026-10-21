@@ -51,8 +51,8 @@
 
 .theme-dark .kg-bookmark-card a.kg-bookmark-container,
 .theme-dark .kg-bookmark-card a.kg-bookmark-container:hover {
-    color: var(--darker-gray-color);
-    background-color: var(--white-color);
+    color: var(--darker-gray-color) !important;
+    background: var(--white-color) !important;
     border-color: var(--light-gray-color);
 }
 
@@ -111,8 +111,8 @@
 
     html:not(.theme-light) .kg-bookmark-card a.kg-bookmark-container,
     html:not(.theme-light) .kg-bookmark-card a.kg-bookmark-container:hover {
-        color: var(--darker-gray-color);
-        background-color: var(--white-color);
+        color: var(--darker-gray-color) !important;
+        background: var(--white-color) !important;
         border-color: var(--light-gray-color);
     }
 
